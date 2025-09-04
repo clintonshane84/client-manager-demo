@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Language;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class LanguagesTableSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class LanguagesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Language::factory()->create([
+        DB::table('languages')->insert([
             [
                 'id' => 1,
                 'code' => 'en',
@@ -22,7 +23,7 @@ class LanguagesTableSeeder extends Seeder
             [
                 'id' => 2,
                 'code' => 'zu',
-                'name' => 'Zulu'
+                'name' => 'isiZulu'
             ],
             [
                 'id' => 3,
@@ -40,37 +41,32 @@ class LanguagesTableSeeder extends Seeder
                 'name' => 'Sesotho'
             ],
             [
-                'id' => 5,
+                'id' => 6,
                 'code' => 've',
                 'name' => 'Tshivenda'
             ],
             [
-                'id' => 6,
+                'id' => 7,
                 'code' => 'nso',
                 'name' => 'Sepedi'
             ],
             [
-                'id' => 7,
+                'id' => 8,
                 'code' => 'tn',
                 'name' => 'Setswana'
             ],
             [
-                'id' => 8,
+                'id' => 9,
                 'code' => 'ss',
                 'name' => 'siSwati'
             ],
             [
-                'id' => 9,
+                'id' => 10,
                 'code' => 'nr',
                 'name' => 'isiNdebele'
             ],
             [
-                'id' => 10,
-                'code' => 'ts',
-                'name' => 'Xitsonga'
-            ],
-            [
-                'id' => 10,
+                'id' => 11,
                 'code' => 'ts',
                 'name' => 'Xitsonga'
             ]

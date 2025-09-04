@@ -14,9 +14,9 @@ return new class () extends Migration {
             // Create Table Columns
             $table->id();
             $table->string('name');
-            $table->string('surname');
+            $table->string('surname')->default('');
             $table->string('email')->unique();
-            $table->string('mobile')->index();
+            $table->string('mobile')->nullable();
             $table->date('birth_date')->nullable();
             $table->unsignedSmallInteger('language_id');
             $table->boolean('is_admin')->default(false);

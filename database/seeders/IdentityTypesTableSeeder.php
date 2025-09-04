@@ -41,5 +41,7 @@ class IdentityTypesTableSeeder extends Seeder
                 'updated_at' => $now,
             ],
         ]);
+        
+        DB::commit();
     }
 }

@@ -13,7 +13,7 @@ return new class () extends Migration {
         //
         Schema::create('languages', function (Blueprint $table) {
             $table->smallIncrements('id');
-            $table->string('code', 2);
+            $table->string('code', 3);
             $table->string('name', 20);
             $table->unique(['code', 'name']);
 
