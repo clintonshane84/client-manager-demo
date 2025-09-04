@@ -3,9 +3,9 @@
 namespace app\View\Components\Forms;
 
 use Closure;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Illuminate\Contracts\Support\Htmlable;
 
 class CreateUser extends Component
 {
@@ -23,10 +23,10 @@ class CreateUser extends Component
     public function render(): View|Htmlable|Closure|string
     {
         return view('components.forms.create-user', [
-            'languages'     => $this->languages,
-            'interests'     => $this->interests,
+            'languages' => $this->languages,
+            'interests' => $this->interests,
             'identityTypes' => $this->identityTypes,
-            'postUrl'       => $this->postUrl,
+            'postUrl' => $this->postUrl,
         ]);
     }
 }

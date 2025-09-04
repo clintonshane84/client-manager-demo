@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class IdentityTypesTableSeeder extends Seeder
@@ -15,7 +14,7 @@ class IdentityTypesTableSeeder extends Seeder
     public function run(): void
     {
         $now = Carbon::now();
-        
+
         DB::table('identity_types')->insert([
             [
                 'code' => 'za_id',

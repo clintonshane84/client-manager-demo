@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SouthAfricanId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Rules\SouthAfricanId;
 
 class StoreNewUserPostRequest extends FormRequest
 {
@@ -23,20 +23,20 @@ class StoreNewUserPostRequest extends FormRequest
      */
     public function rules(): array
     {
-        $emailUnique  = Rule::unique('users', 'email');
+        $emailUnique = Rule::unique('users', 'email');
         $mobileUnique = Rule::unique('users', 'mobile');
-        
+
         return [
-            'name'             => ['required', 'string', 'max:100'],
-            'surname'          => ['required', 'string', 'max:100'],
-            'email'            => ['required', 'email', 'max:255', $emailUnique],
-            'mobile'           => ['required', 'string', 'max:30', $mobileUnique],
-            'birth_date'       => ['nullable', 'date'],
-            'language_id'      => ['nullable', Rule::exists('languages', 'id')],
+            'name' => ['required', 'string', 'max:100'],
+            'surname' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:255', $emailUnique],
+            'mobile' => ['required', 'string', 'max:30', $mobileUnique],
+            'birth_date' => ['nullable', 'date'],
+            'language_id' => ['nullable', Rule::exists('languages', 'id')],
             'identity_type_id' => ['nullable', Rule::exists('identity_types', 'id')],
-            'id_number'        => ['nullable', 'string', new SouthAfricanId],
-            'interests'        => ['sometimes', 'array'],
-            'interests.*'      => [Rule::exists('interests', 'id')]
+            'id_number' => ['nullable', 'string', new SouthAfricanId()],
+            'interests' => ['sometimes', 'array'],
+            'interests.*' => [Rule::exists('interests', 'id')],
         ];
     }
 }

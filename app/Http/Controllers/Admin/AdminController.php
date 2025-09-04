@@ -1,23 +1,23 @@
 <?php
+
 namespace app\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreNewUserPostRequest;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Identity;
-use Illuminate\Support\Facades\Crypt;
-use App\Models\ConsentLog;
-use App\Http\Requests\UpdateUserPostRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreNewUserPostRequest;
+use App\Http\Requests\UpdateUserPostRequest;
+use App\Models\ConsentLog;
+use App\Models\Identity;
+use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-
     /**
      * Create a new user + related data
      * Accepts application/x-www-form-urlencoded
      *
-     * @var StoreNewUserPostRequest $request
+     * @var StoreNewUserPostRequest
      */
     public function storeUser(StoreNewUserPostRequest $request)
     {
@@ -54,7 +54,7 @@ class AdminController extends Controller
                     'user_id' => $user->id,
                     'consent_type' => 'marketing',
                     'consent_text_snapshot' => $request->input('consent_text_marketing', 'Marketing consent.'),
-                    'ip_address' => $request->ip()
+                    'ip_address' => $request->ip(),
                 ]);
             }
 
@@ -63,27 +63,24 @@ class AdminController extends Controller
                     'user_id' => $user->id,
                     'consent_type' => 'id_storage',
                     'consent_text_snapshot' => $request->input('consent_text_id', 'ID storage consent.'),
-                    'ip_address' => $request->ip()
+                    'ip_address' => $request->ip(),
                 ]);
             }
 
             return $user->fresh([
                 'language',
                 'interests',
-                'identity'
+                'identity',
             ]);
         });
 
         return response()->json([
             'status' => 'ok',
-            'data' => $result
+            'data' => $result,
         ], 201);
     }
 
     /**
-     * 
-     * @param UpdateUserPostRequest $request
-     * @param User $user
      * @return mixed
      */
     public function updateUser(UpdateUserPostRequest $request, User $user)
@@ -98,7 +95,7 @@ class AdminController extends Controller
                 'email',
                 'mobile',
                 'birth_date',
-                'language_id'
+                'language_id',
             ] as $f) {
                 if (array_key_exists($f, $data)) {
                     $user->{$f} = $data[$f];
@@ -130,13 +127,13 @@ class AdminController extends Controller
             return $user->fresh([
                 'language',
                 'interests',
-                'identity'
+                'identity',
             ]);
         });
 
         return response()->json([
             'status' => 'ok',
-            'data' => $result
+            'data' => $result,
         ]);
     }
 }
