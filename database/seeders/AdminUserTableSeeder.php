@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserTableSeeder extends Seeder
 {
@@ -16,9 +16,9 @@ class AdminUserTableSeeder extends Seeder
         //
         User::factory()->create([
             'id' => 1,
-            'email' => 'admin@myemail.com',
+            'email' => 'admin@clientmanagerdemo.com',
+            'password' => Hash::make('password'),
             'is_admin' => 1,
-            'language_id' => 1
         ]);
     }
 }

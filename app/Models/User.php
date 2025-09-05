@@ -50,28 +50,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<TRelatedModel,
-     */
-    public function language()
-    {
-        return $this->belongsTo(Language::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<TRelatedModel,
-     */
-    public function interests()
-    {
-        return $this->belongsToMany(Interest::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<TRelatedModel,
-     */
-    public function identities()
-    {
-        return $this->hasMany(Identity::class);
-    }
 }

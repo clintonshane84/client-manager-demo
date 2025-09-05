@@ -11,22 +11,15 @@ return new class () extends Migration {
     public function up(): void
     {
         //
-        Schema::create('identities', function (Blueprint $table) {
+        Schema::create('client_interest', function (Blueprint $table) {
             // Create Table Columns
             $table->bigIncrements('id');
             $table->unsignedBigInteger('client_id');
-            $table->unsignedSmallInteger('identity_type_id');
-            $table->string('value_encrypted');
-            $table->char('value_blind_index', 64)->nullable()->index();
-            $table->timestamp('verified_at')->nullable();
-            $table->timestamps();
+            $table->unsignedSmallInteger('interest_id');
 
-            // Foreign Keys
+            // Create Foreign Keys
             $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
-            $table->foreign('identity_type_id')->references('id')->on('identity_types')->cascadeOnDelete();
-
-            // Unique Keys
-            $table->unique(['client_id', 'identity_type_id']);
+            $table->foreign('interest_id')->references('id')->on('interests')->cascadeOnDelete();
 
             return $table;
         });
@@ -38,6 +31,6 @@ return new class () extends Migration {
     public function down(): void
     {
         //
-        Schema::dropIfExists('identities');
+        Schema::dropIfExists('client_interest');
     }
 };

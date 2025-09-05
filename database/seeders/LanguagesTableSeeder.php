@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Language;
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class LanguagesTableSeeder extends Seeder

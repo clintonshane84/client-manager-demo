@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use App\Rules\SouthAfricanId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Client;
 
 class UpdateUserPostRequest extends FormRequest
 {
@@ -19,8 +19,8 @@ class UpdateUserPostRequest extends FormRequest
 
     protected function targetUserId(): ?int
     {
-        $routeParam = $this->route('user'); // could be User model or id
-        if ($routeParam instanceof User) {
+        $routeParam = $this->route('client'); // could be User model or id
+        if ($routeParam instanceof Client) {
             return $routeParam->id;
         }
 
@@ -34,10 +34,10 @@ class UpdateUserPostRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->targetUserId();
+        $clientId = $this->targetUserId();
 
-        $emailUnique = Rule::unique('users', 'email')->ignore($userId);
-        $mobileUnique = Rule::unique('users', 'mobile')->ignore($userId);
+        $emailUnique = Rule::unique('clients', 'email')->ignore($clientId);
+        $mobileUnique = Rule::unique('clients', 'mobile')->ignore($clientId);
 
         return [
             // Use 'sometimes' so partial updates are allowed.

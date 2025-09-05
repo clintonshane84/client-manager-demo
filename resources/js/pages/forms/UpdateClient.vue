@@ -7,13 +7,29 @@ import { Label } from '../../components/ui/label'
 import InputError from '../../components/InputError.vue'
 import { LoaderCircle } from 'lucide-vue-next'
 
-interface Option { id: number; name: string }
+type Option = { id: number; name: string }
+type Language = Option
+type Interest = Option
+
+type ClientPayload = {
+  id: number
+  name: string
+  surname: string
+  email: string
+  mobile: string
+  birth_date?: string | null
+  language?: Language | null
+  language_id?: number | null
+  interests?: Interest[]
+  identity?: { identity_type_id?: number | null } | null
+}
 
 const props = defineProps<{
-  languages: Option[];
-  interests: Option[];
-  identityTypes: Option[];
-  postUrl: string; // e.g. '/admin/users'
+  client: ClientPayload
+  languages: Option[]
+  interests: Option[]
+  identityTypes: Option[]
+  putUrl: string // e.g. route('clients.update', client.id)
 }>()
 
 // CSRF token (from Blade layout <meta name="csrf-token" ...>)
@@ -25,27 +41,39 @@ onMounted(async () => {
   try { await fetch('/sanctum/csrf-cookie', { credentials: 'include' }) } catch {}
 })
 
+// Prefill form with client data
+const initialInterests = (props.client.interests ?? []).map(i => i.id)
+const initialLanguageId =
+  props.client.language?.id ?? (props.client.language_id ?? null)
+const initialIdentityTypeId = props.client.identity?.identity_type_id ?? null
+
 const form = useInertiaForm({
-  name: '',
-  surname: '',
-  email: '',
-  mobile: '',
-  birth_date: '',
-  language_id: null as number | null,
-  identity_type_id: null as number | null,
-  id_number: '',
-  interests: [] as number[],
+  name: props.client.name ?? '',
+  surname: props.client.surname ?? '',
+  email: props.client.email ?? '',
+  mobile: props.client.mobile ?? '',
+  birth_date: props.client.birth_date ?? '',
+  language_id: initialLanguageId as number | null,
+  identity_type_id: initialIdentityTypeId as number | null,
+  // ID number is intentionally blank (don’t show encrypted value)
+  id_number: '' as string,
+  interests: initialInterests as number[],
   _token: '' as string,
 })
 
 const submitting = computed(() => form.processing)
 
 function submit() {
-  form.transform((data) => ({ ...data, _token: csrf.value }))
-  form.post(props.postUrl, {
+  // Attach token + avoid sending empty id_number (prevents accidental clearing)
+  form.transform((data) => {
+    const payload: Record<string, any> = { ...data, _token: csrf.value }
+    if (!payload.id_number) delete payload.id_number
+    return payload
+  })
+
+  form.put(props.putUrl, {
     onSuccess: () => {
-      // ✅ After successful create, go back to clients list
-      router.visit('/clients')
+      router.visit('/clients') // back to list after 303 redirect
     },
     preserveScroll: true,
   })
@@ -53,11 +81,11 @@ function submit() {
 </script>
 
 <template>
-  <Head title="Create User" />
+  <Head title="Edit Client" />
 
   <div class="mx-auto max-w-2xl p-4 md:p-8">
     <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-xl font-semibold">Create Client</h1>
+      <h1 class="text-xl font-semibold">Edit Client</h1>
 
       <Link href="/clients" method="get" as="button">
         <Button variant="secondary">Back to Clients</Button>
@@ -125,7 +153,7 @@ function submit() {
 
       <div class="col-span-1">
         <Label for="id_number">ID Number</Label>
-        <Input id="id_number" name="id_number" v-model="form.id_number" autocomplete="off" />
+        <Input id="id_number" name="id_number" v-model="form.id_number" autocomplete="off" placeholder="Leave blank to keep unchanged" />
         <InputError :message="form.errors.id_number" />
       </div>
 
@@ -147,7 +175,7 @@ function submit() {
       <div class="col-span-1 md:col-span-2 mt-4 flex items-center justify-end gap-2">
         <Button type="submit" :disabled="submitting">
           <LoaderCircle v-if="submitting" class="mr-2 h-4 w-4 animate-spin" />
-          Create Client
+          Save Changes
         </Button>
       </div>
     </form>

@@ -22,6 +22,17 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
+        })
     ],
+	ssr: {
+		noExternal: ['@inertiajs/server', '@inertiajs/vue3'],
+	},
+	build: {
+	  rollupOptions: {
+	    output: {
+	      // make output predictable; Sail command expects a single entry
+	      // Not strictly required, but nice to have.
+	    },
+	  },
+	},
 });

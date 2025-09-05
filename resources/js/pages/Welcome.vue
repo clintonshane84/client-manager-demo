@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { dashboard, login, register } from '@/routes';
+import { login, logout, register } from '@/routes';
 import { Head, Link } from '@inertiajs/vue3';
 </script>
 
@@ -13,10 +13,10 @@ import { Head, Link } from '@inertiajs/vue3';
             <nav class="flex items-center justify-end gap-4">
                 <Link
                     v-if="$page.props.auth.user"
-                    :href="dashboard()"
+                    href="/clients"
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
-                    Dashboard
+                    Clients
                 </Link>
                 <template v-else>
                     <Link
@@ -30,6 +30,13 @@ import { Head, Link } from '@inertiajs/vue3';
                         class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                     >
                         Register
+                    </Link>
+                    <Link
+                        v-if="$page.props.auth.user"
+                        :href="logout()"
+                        class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                    >
+                        Logout
                     </Link>
                 </template>
             </nav>

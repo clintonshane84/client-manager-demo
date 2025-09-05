@@ -23,8 +23,8 @@ class StoreNewUserPostRequest extends FormRequest
      */
     public function rules(): array
     {
-        $emailUnique = Rule::unique('users', 'email');
-        $mobileUnique = Rule::unique('users', 'mobile');
+        $emailUnique = Rule::unique('clients', 'email');
+        $mobileUnique = Rule::unique('clients', 'mobile');
 
         return [
             'name' => ['required', 'string', 'max:100'],

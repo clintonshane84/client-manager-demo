@@ -17,17 +17,12 @@ return new class () extends Migration {
             $table->string('surname')->default('');
             $table->string('email')->unique();
             $table->string('mobile')->nullable();
-            $table->date('birth_date')->nullable();
-            $table->unsignedSmallInteger('language_id');
             $table->boolean('is_admin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-
-            // Create Foreign Keys
-            $table->foreign('language_id')->references('id')->on('languages');
 
             return $table;
         });
