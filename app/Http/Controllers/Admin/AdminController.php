@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\Client;
+use App\Events\RegisteredClient;
 
 class AdminController extends Controller
 {
@@ -34,6 +35,11 @@ class AdminController extends Controller
             $client->birth_date = $data['birth_date'] ?? null;
             $client->language_id = $data['language_id'] ?? null;
             $client->save();
+
+            // Dispatch AFTER COMMIT so no emails go out on rollback
+            DB::afterCommit(function () use ($client) {
+                event(new RegisteredClient($client));
+            });
 
             // Identity (optional)
             if (! empty($data['id_number']) && ! empty($data['identity_type_id'])) {

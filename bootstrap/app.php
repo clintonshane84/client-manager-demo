@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
     })
+    ->withEvents(discover: [
+        __DIR__ .'/../app/Listeners',
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
